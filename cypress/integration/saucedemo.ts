@@ -31,5 +31,6 @@ describe('homepage', () => {
 it('checkmenu',() => {
     cy.get('button[id=react-burger-menu-btn]').click();
     cy.get('a[id=inventory_sidebar_link').should('have.text','all items');
+  
 })
 })
