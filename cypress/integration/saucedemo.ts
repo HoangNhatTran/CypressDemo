@@ -7,7 +7,7 @@
 
 
 const credential = {
-	username: 'problem_user',
+	username: 'standard_user',
 	password: 'secret_sauce',
 };
 
@@ -56,46 +56,85 @@ describe('homepage', () => {
     		  })
 });
 
-it('check menu',() => {
-    cy.get('button[id=react-burger-menu-btn]').click();
-    //check the name of each value inside this menu
-    cy.get('a[id=inventory_sidebar_link').should('have.text','All Items');
-    cy.get('a[id=about_sidebar_link').should('have.text','About');
-    cy.get('a[id=logout_sidebar_link').should('have.text','Logout');
-    cy.get('a[id=reset_sidebar_link').should('have.text','Reset App State');
-    cy.get('button[id=react-burger-cross-btn]').click();
+
+// it('check menu',() => {
+//     cy.get('button[id=react-burger-menu-btn]').click();
+//     //check the name of each value inside this menu
+//     cy.get('a[id=inventory_sidebar_link').should('have.text','All Items');
+//     cy.get('a[id=about_sidebar_link').should('have.text','About');
+//     cy.get('a[id=logout_sidebar_link').should('have.text','Logout');
+//     cy.get('a[id=reset_sidebar_link').should('have.text','Reset App State');
+//     cy.get('button[id=react-burger-cross-btn]').click();
   
+// })
+
+// it('check filter',() =>{
+//   cy.get('select.product_sort_container').select('za').get('span.active_option').should('have.text', 'Name (Z to A)');
+//   cy.get('select.product_sort_container').select('az').get('span.active_option').should('have.text', 'Name (A to Z)');
+//   cy.get('select.product_sort_container').select('lohi').get('span.active_option').should('have.text', 'Price (low to high)');
+//   cy.get('select.product_sort_container').select('hilo').get('span.active_option').should('have.text', 'Price (high to low)');
+// })
+it('getelement',()=>{
+  let elements= cy.get('div.inventory_item')
+
+  cy.get('div.inventory_item').then(($selectedElement) => {
+    // Debugger is hit after the cy.visit
+    // and cy.get command have completed
+
+    console.log($selectedElement);
+    for(let i =0; i<$selectedElement.length; i++) {
+      if(i==0) {
+      const element = $selectedElement[i];
+      cy.wrap(element).find('.inventory_item_name').should('have.text', 'Sauce Labs Backpack');
+      console.log($selectedElement)
+      }
+
+    }
+  })
+
+  // console.log(elements);
+  // for(let element in elements) {
+      
+  // }
 })
-it('check filter',() =>{
-  cy.get('div.page_wrapper div.header_container:nth-child(1) div.header_secondary_container div.right_component span.select_container > select.product_sort_container').select('az').should('have.value', 'az')
-  // cy.get('div.page_wrapper div.header_container:nth-child(1) div.header_secondary_container div.right_component span.select_container > select.product_sort_container').select('option:Name (Z to A)').should('have.value', 'za')
-  // cy.get('div.page_wrapper div.header_container:nth-child(1) div.header_secondary_container div.right_component span.select_container > select.product_sort_container').select('Price (low to high)').should('have.value', 'lohi')
-  // cy.get('div.page_wrapper div.header_container:nth-child(1) div.header_secondary_container div.right_component span.select_container > select.product_sort_container').select('Price (high to low)').should('have.value', 'hilo')
-})
-it('Check info of Sauce Labs Backpack',()=>{
-  const productBackpack ={
-    name:'Sauce Labs Backpack',
-    info:'carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.',
-    price:'$29.99',
-    link:'https://www.saucedemo.com/inventory-item.html?id=4',
-  }
-  cy.get('div.page_wrapper div.inventory_container div.inventory_list div.inventory_item:nth-child(1) div.inventory_item_description div.inventory_item_label a:nth-child(1) > div.inventory_item_name').should('have.text',productBackpack.name);
-  cy.get('div.page_wrapper div.inventory_container div.inventory_list div.inventory_item:nth-child(1) div.inventory_item_description div.inventory_item_label > div.inventory_item_desc:nth-child(2)').should('have.text',productBackpack.info);
-  cy.get('div.page_wrapper div.inventory_container div.inventory_list div.inventory_item:nth-child(1) div.inventory_item_description div.pricebar > div.inventory_item_price').should('have.text',productBackpack.price);
-  cy.get('div.page_wrapper div.inventory_container div.inventory_list div.inventory_item:nth-child(1) div.inventory_item_description div.inventory_item_label a:nth-child(1) > div.inventory_item_name ').click()//.url().should('eq',productBackpack.link);
-  cy.get('#back-to-products').click();
-})
-it('Check info of Sauce Labs Bike Light',()=>{
-  const productBikeLight ={
-    name: 'Sauce Labs Bike Light',
-    info: "A red light isn't the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included.",
-    price: '$9.99',
-    link: 'https://www.saucedemo.com/inventory-item.html?id=4',
-  }
-  cy.get('div.page_wrapper div.inventory_container div.inventory_list div.inventory_item:nth-child(2) div.inventory_item_description div.inventory_item_label a:nth-child(1) > div.inventory_item_name').should('have.text',productBackpack.name);
-  cy.get('div.page_wrapper div.inventory_container div.inventory_list div.inventory_item:nth-child(1) div.inventory_item_description div.inventory_item_label > div.inventory_item_desc:nth-child(2)').should('have.text',productBackpack.info);
-  cy.get('div.page_wrapper div.inventory_container div.inventory_list div.inventory_item:nth-child(1) div.inventory_item_description div.pricebar > div.inventory_item_price').should('have.text',productBackpack.price);
-  cy.get('div.page_wrapper div.inventory_container div.inventory_list div.inventory_item:nth-child(1) div.inventory_item_description div.inventory_item_label a:nth-child(1) > div.inventory_item_name ').click()//.url().should('eq',productBackpack.link);
-  cy.get('#back-to-products').click();
-})
+// it('Check info of Sauce Labs Backpack',()=>{
+//   const productBackpack ={
+//     name:'Sauce Labs Backpack',
+//     info:'carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.',
+//     price:'$29.99',
+//     link:'https://www.saucedemo.com/inventory-item.html?id=4',
+//   }
+//   cy.get('a#item_4_title_link div.inventory_item_name').should('have.text',productBackpack.name);
+//   cy.get('a#item_4_title_link + div.inventory_item_desc').should('have.text',productBackpack.info);
+//   cy.get('div.inventory_item_label + a.').should('have.text',productBackpack.price);
+//   cy.get('a#item_4_title_link div.inventory_item_name').click().url().should('eq',productBackpack.link);
+
+//   // cy.get('a#item_4_title_link div.inventory_item_name').then($selectedElement => {
+//   //   debugger;
+//   // })
+
+
+//   // cy.get('#back-to-products').click();
+// })
+// // it('Check info of Sauce Labs Bike Light',()=>{
+// //   const productBikeLight ={
+// //     name: 'Sauce Labs Bike Light',
+// //     info: "A red light isn't the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included.",
+// //     price: '$9.99',
+// //     link: 'https://www.saucedemo.com/inventory-item.html?id=4',
+// //   }
+// //   cy.get('div.page_wrapper div.inventory_container div.inventory_list div.inventory_item:nth-child(2) div.inventory_item_description div.inventory_item_label a:nth-child(1) > div.inventory_item_name').parent().should('have.text',productBackpack.name);
+// //   cy.get('div.page_wrapper div.inventory_container div.inventory_list div.inventory_item:nth-child(1) div.inventory_item_description div.inventory_item_label > div.inventory_item_desc:nth-child(2)').should('have.text',productBackpack.info);
+// //   cy.get('div.page_wrapper div.inventory_container div.inventory_list div.inventory_item:nth-child(1) div.inventory_item_description div.pricebar > div.inventory_item_price').should('have.text',productBackpack.price);
+// //   cy.get('div.page_wrapper div.inventory_container div.inventory_list div.inventory_item:nth-child(1) div.inventory_item_description div.inventory_item_label a:nth-child(1) > div.inventory_item_name ').click()//.url().should('eq',productBackpack.link);
+// //   cy.get('#back-to-products').click();
+
+
+
+//   // a: tag
+//   // #: id
+//   // .: class
+//   // [name='as;d]: property
+
+//})
 })
