@@ -9,8 +9,14 @@
 const credential = {
 	username: 'standard_user',
 	password: 'secret_sauce',
-};
+}; 
 
+const product0 ={
+    name:'Sauce Labs Backpack',
+    info:'carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.',
+    price:'$29.99',
+    link:'https://www.saucedemo.com/inventory-item.html?id=4',
+}
 
 const productBoltTshirt ={
   name:'Sauce Labs Bolt T-Shirt',
@@ -57,36 +63,39 @@ describe('homepage', () => {
 });
 
 
-// it('check menu',() => {
-//     cy.get('button[id=react-burger-menu-btn]').click();
-//     //check the name of each value inside this menu
-//     cy.get('a[id=inventory_sidebar_link').should('have.text','All Items');
-//     cy.get('a[id=about_sidebar_link').should('have.text','About');
-//     cy.get('a[id=logout_sidebar_link').should('have.text','Logout');
-//     cy.get('a[id=reset_sidebar_link').should('have.text','Reset App State');
-//     cy.get('button[id=react-burger-cross-btn]').click();
+it('check menu',() => {
+    cy.get('button[id=react-burger-menu-btn]').click();
+    //check the name of each value inside this menu
+    cy.get('a[id=inventory_sidebar_link').should('have.text','All Items');
+    cy.get('a[id=about_sidebar_link').should('have.text','About');
+    cy.get('a[id=logout_sidebar_link').should('have.text','Logout');
+    cy.get('a[id=reset_sidebar_link').should('have.text','Reset App State');
+    cy.get('button[id=react-burger-cross-btn]').click();
   
-// })
+})
 
-// it('check filter',() =>{
-//   cy.get('select.product_sort_container').select('za').get('span.active_option').should('have.text', 'Name (Z to A)');
-//   cy.get('select.product_sort_container').select('az').get('span.active_option').should('have.text', 'Name (A to Z)');
-//   cy.get('select.product_sort_container').select('lohi').get('span.active_option').should('have.text', 'Price (low to high)');
-//   cy.get('select.product_sort_container').select('hilo').get('span.active_option').should('have.text', 'Price (high to low)');
-// })
-it('getelement',()=>{
-  let elements= cy.get('div.inventory_item')
+it('check filter',() =>{
+  cy.get('select.product_sort_container').select('za').get('span.active_option').should('have.text', 'Name (Z to A)');
+  cy.get('select.product_sort_container').select('lohi').get('span.active_option').should('have.text', 'Price (low to high)');
+  cy.get('select.product_sort_container').select('hilo').get('span.active_option').should('have.text', 'Price (high to low)');
+  cy.get('select.product_sort_container').select('az').get('span.active_option').should('have.text', 'Name (A to Z)');
+
+})
+it('check info and behavior of all product',()=>{
+  //get inventory_item array
 
   cy.get('div.inventory_item').then(($selectedElement) => {
-    // Debugger is hit after the cy.visit
-    // and cy.get command have completed
-
-    console.log($selectedElement);
+  //loop to get each product from the arrat
     for(let i =0; i<$selectedElement.length; i++) {
       if(i==0) {
       const element = $selectedElement[i];
-      cy.wrap(element).find('.inventory_item_name').should('have.text', 'Sauce Labs Backpack');
-      console.log($selectedElement)
+      //check info
+      cy.wrap(element).find('.inventory_item_name').should('have.text', product0.name);
+      cy.wrap(element).find('.inventory_item_description').should('contains.text',product0.info);
+      cy.wrap(element).find('.inventory_item_price').should('have.text',product0.price)
+      cy.wrap(element).find('.inventory_item_name').click().url().should('eq',product0.link);
+      //add and unadd to cart
+      //check product info in cart
       }
 
     }
