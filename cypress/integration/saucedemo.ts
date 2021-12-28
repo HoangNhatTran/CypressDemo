@@ -67,7 +67,7 @@ describe('homepage', () => {
   });
 
 
-  it('check menu', () => {
+  xit('check menu', () => {
     cy.get('button[id=react-burger-menu-btn]').click();
     //check the name of each value inside this menu
     cy.get('a[id=inventory_sidebar_link').should('have.text', 'All Items');
@@ -78,19 +78,19 @@ describe('homepage', () => {
 
   })
 
-  it('check filter', () => {
+  xit('check filter', () => {
     cy.get('select.product_sort_container').select('za').get('span.active_option').should('have.text', 'Name (Z to A)');
     cy.get('select.product_sort_container').select('lohi').get('span.active_option').should('have.text', 'Price (low to high)');
     cy.get('select.product_sort_container').select('hilo').get('span.active_option').should('have.text', 'Price (high to low)');
     cy.get('select.product_sort_container').select('az').get('span.active_option').should('have.text', 'Name (A to Z)');
 
   })
-  it('check info and behavior of all product', () => {
+  xit('check info and behavior of all product', () => {
     //get inventory_item array
 
     cy.get('div.inventory_item').then(($selectedElement) => {
       //loop to get each product from the arrat
-      for (let i = 0; i < $selectedElement.length; i++) {
+      for ( let i= 0; i < $selectedElement.length; i++) {
         const element = $selectedElement[i];
         //check info
 
@@ -104,13 +104,14 @@ describe('homepage', () => {
   })
   it('Check content of empty cart', () => {
     // cy.pause();
-    // cy.visit('/cart.html');
+    cy.visit(
+      '/?/cart.html' 
+    );
     //cy.visit('/inventory-item.html?id=4');
-    cy.visit('/')
     // debugger;
-    // cy.get('div[id=shopping_cart_container]').click();
-    // cy.get('.cart_item').should('not.exist');
-    // cy.get('button[id=continue-shopping]').click();
+    cy.get('div[id=shopping_cart_container]').click();
+    cy.get('.cart_item').should('not.exist');
+    cy.get('button[id=continue-shopping]').click();
   })
   it('in main page, check cart number when add/unadd to cart for each product', () => {
     cy.get('button[id=add-to-cart-sauce-labs-backpack]').click();
@@ -134,7 +135,7 @@ describe('homepage', () => {
     cy.get('button[id=remove-sauce-labs-onesie]').click();
     cy.get('.shopping_cart_badge').should('not.exist');
 
-    cy.get('button[id=add-to-cart-test.allthethings()-t-shirt-(red)]').click();
+    cy.get('#add-to-cart-test\\.allthethings\\(\\)-t-shirt-\\(red\\)').click();
     cy.get('.shopping_cart_badge').should('be.visible');
     cy.get('button[id=remove-test.allthethings()-t-shirt-(red)]').click();
     cy.get('.shopping_cart_badge').should('not.exist');
